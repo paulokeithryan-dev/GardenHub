@@ -1,7 +1,9 @@
--- For local testing or compilation setup
-local Config = require(script.Parent.config)
-local UILibrary = require(script.Parent.ui_library)
-local Features = require(script.Parent.features)
+-- =====================================================================
+-- THE LIVE CLOUD ORCHESTRATOR
+-- =====================================================================
+local Config = loadstring(game:HttpGet("https://raw.githubusercontent.com/paulokeithryan-dev/GardenHub/main/config.lua"))()
+local UILibrary = loadstring(game:HttpGet("https://raw.githubusercontent.com/paulokeithryan-dev/GardenHub/main/ui_library.lua"))()
+local Features = loadstring(game:HttpGet("https://raw.githubusercontent.com/paulokeithryan-dev/GardenHub/main/features.lua"))()
 
 -- Initialize the window canvas
 local Window = UILibrary.CreateWindow("Grow a Garden 2")

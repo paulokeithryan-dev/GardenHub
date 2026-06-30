@@ -115,11 +115,12 @@ function Features.SaveConfig(Config)
     pcall(function() writefile(FILE_NAME, HttpService:JSONEncode(Config)) end)
 end
 
+-- FIXED: Added missing "in pairs(decodedTable)" generator to fix compilation failure
 function Features.LoadConfig(Config, ToggleRegistry)
     if isfile and isfile(FILE_NAME) then
         local success, decodedTable = pcall(function() return HttpService:JSONDecode(readfile(FILE_NAME)) end)
         if success and type(decodedTable) == "table" then
-            for key, value do
+            for key, value in pairs(decodedTable) do
                 if type(value) == "table" and type(Config[key]) == "table" then
                     for subKey, subValue in pairs(value) do Config[key][subKey] = subValue end
                 else Config[key] = value end
@@ -208,6 +209,7 @@ function Features.StartAutomationLoops(Config, ToggleRegistry)
     end)
 
     -- Shop Thread Integration Matrix
+    -- NOTE: Ensure 'v3' framework environment variable is loaded/globally defined by your executor for this to complete orders!
     task.spawn(function()
         local MasterSeedList = {"Pineapple", "Mushroom", "Green Bean", "Banana", "Grape", "Coconut", "Dragon Fruit", "Acorn", "Cherry"}
         while task.wait(1) do
@@ -226,7 +228,8 @@ function Features.StartAutomationLoops(Config, ToggleRegistry)
 
     -- Ultimate Studio UI Extension Integration
     task.spawn(function()
-        local GEARS_COLOR, PROPS_COLOR = Color3.fromRGB(0, 162, 255), Color3.fromRGB(255, 138, 21 pink)
+        -- FIXED: Removed "pink" text syntax error inside Color3 parameters
+        local GEARS_COLOR, PROPS_COLOR = Color3.fromRGB(0, 162, 255), Color3.fromRGB(255, 138, 21)
         while true do
             task.wait(2)
             pcall(function()
